@@ -361,6 +361,12 @@
         </div>
     </div>
 
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="firebase-config.js"></script>
+
     <script>
         // UNLIMITED STORAGE (INDEXEDDB) HANDLER
         const dbName = "NexusDB_V6";
@@ -381,9 +387,20 @@
         }
 
         async function getD() {
-            const db = await openDB();
+            // FIREBASE FETCH
+            if (typeof db !== 'undefined') {
+                try {
+                    const snapshot = await propertiesRef.once('value');
+                    const data = snapshot.val();
+                    return data ? Object.values(data) : [];
+                } catch (e) {
+                    console.warn("Firebase fetch failed, fallback to local");
+                }
+            }
+
+            const dbIdb = await openDB();
             return new Promise((resolve) => {
-                const transaction = db.transaction(storeName, "readonly");
+                const transaction = dbIdb.transaction(storeName, "readonly");
                 const store = transaction.objectStore(storeName);
                 const request = store.getAll();
                 request.onsuccess = () => resolve(request.result || []);
@@ -741,6 +758,13 @@
             renderInquiries();
             loadOfficeData();
             loadCTAData();
+
+            // Real-time Property Listener for Admin Table
+            if (typeof propertiesRef !== 'undefined') {
+                propertiesRef.on('value', () => {
+                    renderV5();
+                });
+            }
         }
 
         initAdmin();
