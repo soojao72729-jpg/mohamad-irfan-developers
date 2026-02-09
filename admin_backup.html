@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Admin | V5 RESCUE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-container {
+            padding: 8rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            color: white;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 2rem;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.2rem;
+            border-radius: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.9rem;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .admin-table th {
+            text-align: left;
+            padding: 1.2rem 1rem;
+            color: #94a3b8;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.8rem;
+        }
+
+        .admin-table td {
+            padding: 1.2rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-primary {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            width: 100%;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+
+        .prop-img-sm {
+            width: 60px;
+            height: 45px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin-left: 5px;
+        }
+
+        .edit-btn {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* INQUIRY CARD STYLES */
+        .inquiry-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .inquiry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.5rem;
+        }
+
+        .inquiry-name {
+            font-weight: 700;
+            color: #60a5fa;
+            font-size: 1.1rem;
+        }
+
+        .inquiry-meta {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .inquiry-msg {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #cbd5e1;
+        }
+
+        .inquiry-contact {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+
+<body style="background: #020617;">
+    <header id="main-header" class="scrolled">
+        <div class="logo">MOHAMMAD IRFAN DEVELOPERS <span
+                style="font-size: 0.7rem; background: #10b981; color: white; padding: 2px 6px; border-radius: 4px; margin-left: 10px;">RESCUE
+                V5</span></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">View Website</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="admin-container">
+        <div class="admin-grid">
+            <div class="glass-card" style="height: fit-content; position: sticky; top: 100px;">
+                <h2 id="f-t" style="margin-bottom: 2rem;">Add New Property</h2>
+                <form id="f-v5">
+                    <input type="hidden" id="e-i">
+                    <div class="form-group"><label>Property Name</label><input type="text" id="t-v5"
+                            class="form-control" required placeholder="5 Marla House"></div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="c-v5" class="form-control">
+                            <option value="Sale">For Sale</option>
+                            <option value="Rent">For Rent</option>
+                            <option value="Commercial">Commercial</option>
+                            <option value="Plot">Plot</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Price (PKR)</label><input type="text" id="p-v5" class="form-control"
+                            required placeholder="1.2 Crore"></div>
+                    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div><label>City</label><input type="text" id="ct-v5" class="form-control" required
+                                value="Lahore"></div>
+                        <div><label>Area</label><input type="text" id="a-v5" class="form-control" required
+                                placeholder="DHA"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Property Image</label>
+                        <input type="file" id="fl-v5" class="form-control" accept="image/*">
+                        <input type="hidden" id="id-v5">
+                        <div id="pv-v5" style="display:none; margin-top:1rem;"><img id="im-v5" src=""
+                                style="width:100%; border-radius:10px;"></div>
+                    </div>
+                    <div class="form-group"><label>Stats</label><input type="text" id="st-v5" class="form-control"
+                            placeholder="3 Beds, 4 Baths"></div>
+                    <button type="submit" class="btn-primary" id="sb-v5">SAVE PROPERTY</button>
+                </form>
+            </div>
+
+            <div>
+                <h2 style="margin-bottom: 1rem;">Listings Status</h2>
+                <div class="glass-card" style="padding: 0;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Location</th>
+                                <th style="text-align:right; padding-right:2rem;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tb-v5"></tbody>
+                    </table>
+                </div>
+                <button onclick="superResetData()"
+                    style="margin-top: 2rem; color: #ef4444; background: none; border: 1px solid #ef4444; padding: 5px 10px; border-radius: 5px; cursor:pointer;">Super
+                    Reset (Clear Everything)</button>
+
+                <h2 style="margin-top: 4rem; margin-bottom: 1.5rem; color: #f59e0b;">User Messages / Inquiries</h2>
+                <div id="inquiry-list">
+                    <!-- Loaded dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 5rem 0;">
+
+        <!-- NEW OFFICE MANAGEMENT SECTION -->
+        <div class="admin-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="glass-card">
+                <h2 style="margin-bottom: 2rem; color: #60a5fa;">Manage Office/Shop Section</h2>
+                <form id="office-form">
+                    <div class="form-group">
+                        <label>Office Heading</label>
+                        <input type="text" id="off-title" class="form-control" placeholder="e.g. Real Estate Shop">
+                    </div>
+                    <div class="form-group">
+                        <label>Office Details / Description</label>
+                        <textarea id="off-desc" class="form-control" rows="5" style="resize: none;"
+                            placeholder="Welcome to our outlet..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Office Image</label>
+                        <input type="file" id="off-file" class="form-control" accept="image/*">
+                        <input type="hidden" id="off-img-data">
+                        <div id="off-preview-box" style="display:none; margin-top:1rem;">
+                            <img id="off-preview-img" src="" style="width:100%; border-radius:10px;">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary" style="background: #3b82f6;">UPDATE SHOP SECTION</button>
+                    <button type="button" onclick="resetOfficeDefault()"
+                        style="width:100%; margin-top:10px; background:none; border:none; color:#94a3b8; cursor:pointer;">Reset
+                        to Default</button>
+                </form>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: center; padding: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Admin Note:</h3>
+                <p style="color: #94a3b8; line-height: 1.6;">
+                    Yahan se aap main page ka "Visit Our Office" wala hissa tabdeel kar sakte hain. <br><br>
+                    1. <b>Heading</b> badlein. <br>
+                    2. <b>Details</b> likhein jo aap dikhana chahte hain. <br>
+                    3. <b>Office/Shop ki picture</b> select karein. <br><br>
+                    Ye tabdeeli foran "About" section mein nazar aaye gi.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // V5 DATA HANDLER
+        function getD() {
+            try {
+                const raw = localStorage.getItem('nexus_properties');
+                return raw ? JSON.parse(raw) : [];
+            } catch (e) {
+                console.error("Data Corrupt! Resetting.");
+                localStorage.setItem('nexus_properties', '[]');
+                return [];
+            }
+        }
+
+        function saveD(arr) {
+            try {
+                localStorage.setItem('nexus_properties', JSON.stringify(arr));
+                return true;
+            } catch (e) {
+                alert("STORAGE FULL: Image bohat bari hai! Choti image upload karein.");
+                return false;
+            }
+        }
+
+        function renderV5() {
+            const list = document.getElementById('tb-v5');
+            const data = getD();
+            list.innerHTML = data.length ? '' : '<tr><td colspan="5" style="text-align:center; padding:3rem;">Khaali Website! Pehli entry karein.</td></tr>';
+            data.forEach(p => {
+                list.innerHTML += `<tr><td><img src="${p.img}" class="prop-img-sm"> <b>${p.title}</b></td><td>${p.category}</td><td>${p.price}</td><td>${p.area}, ${p.city}</td><td style="text-align:right; padding-right:2rem;"><button onclick="editV5(${p.id})" class="action-btn edit-btn">Edit</button><button onclick="deleteV5(${p.id})" class="action-btn delete-btn">Del</button></td></tr>`;
+            });
+        }
+
+        const fileIn = document.getElementById('fl-v5');
+        fileIn.onchange = function (e) {
+            const f = e.target.files[0];
+            if (f) {
+                const r = new FileReader();
+                r.onload = (re) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const can = document.createElement('canvas');
+                        const w = 600; const s = w / img.width;
+                        can.width = w; can.height = img.height * s;
+                        can.getContext('2d').drawImage(img, 0, 0, can.width, can.height);
+                        const opt = can.toDataURL('image/jpeg', 0.4); // 40% quality for super-safety
+                        document.getElementById('id-v5').value = opt;
+                        document.getElementById('im-v5').src = opt;
+                        document.getElementById('pv-v5').style.display = 'block';
+                    };
+                    img.src = re.target.result;
+                };
+                r.readAsDataURL(f);
+            }
+        };
+
+        document.getElementById('f-v5').onsubmit = function (e) {
+            e.preventDefault();
+            const imgData = document.getElementById('id-v5').value;
+            if (!imgData) { alert("Image select karein!"); return; }
+
+            let d = getD();
+            const eid = document.getElementById('e-i').value;
+            const entry = {
+                id: eid ? parseInt(eid) : Date.now(),
+                title: document.getElementById('t-v5').value,
+                price: document.getElementById('p-v5').value,
+                city: document.getElementById('ct-v5').value,
+                area: document.getElementById('a-v5').value,
+                category: document.getElementById('c-v5').value,
+                img: imgData,
+                stats: document.getElementById('st-v5').value.split(',')
+            };
+
+            if (eid) { const idx = d.findIndex(x => x.id === parseInt(eid)); d[idx] = entry; }
+            else { d.push(entry); }
+
+            if (saveD(d)) {
+                alert("MUBARAK HO! PROPERTY SAVE HO GAYI.");
+                location.reload(); // Hard refresh to ensure table update
+            }
+        };
+
+        function deleteV5(id) { if (confirm("DLETE?")) { let d = getD().filter(x => x.id !== id); saveD(d); renderV5(); } }
+
+        function editV5(id) {
+            const p = getD().find(x => x.id === id);
+            if (p) {
+                document.getElementById('t-v5').value = p.title;
+                document.getElementById('p-v5').value = p.price;
+                document.getElementById('ct-v5').value = p.city;
+                document.getElementById('a-v5').value = p.area;
+                document.getElementById('c-v5').value = p.category;
+                document.getElementById('st-v5').value = p.stats.join(',');
+                document.getElementById('id-v5').value = p.img;
+                document.getElementById('im-v5').src = p.img;
+                document.getElementById('pv-v5').style.display = 'block';
+                document.getElementById('e-i').value = p.id;
+                document.getElementById('sb-v5').innerText = "UPDATE NOW";
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function renderInquiries() {
+            const list = document.getElementById('inquiry-list');
+            const data = JSON.parse(localStorage.getItem('nexus_inquiries')) || [];
+            list.innerHTML = data.length ? '' : '<div class="glass-card" style="text-align:center; color:#94a3b8;">No messages yet.</div>';
+
+            data.reverse().forEach(inq => {
+                list.innerHTML += `
+                    <div class="inquiry-card glass">
+                        <div class="inquiry-header">
+                            <div>
+                                <div class="inquiry-name">${inq.name}</div>
+                                <div class="inquiry-meta">${inq.time}</div>
+                            </div>
+                            <button onclick="deleteInquiry(${inq.id})" class="action-btn delete-btn" style="padding:4px 8px;">Delete</button>
+                        </div>
+                        <div class="inquiry-msg">"${inq.message}"</div>
+                        <div class="inquiry-contact">
+                            <span>📧 ${inq.email}</span>
+                            <span>📞 <b>${inq.phone}</b></span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function deleteInquiry(id) {
+            if (confirm("Delete this message?")) {
+                let data = JSON.parse(localStorage.getItem('nexus_inquiries')) || [];
+                data = data.filter(x => x.id !== id);
+                localStorage.setItem('nexus_inquiries', JSON.stringify(data));
+                renderInquiries();
+            }
+        }
+
+        // OFFICE MANAGEMENT SCRIPT
+        const offForm = document.getElementById('office-form');
+        const offFile = document.getElementById('off-file');
+        const offImgData = document.getElementById('off-img-data');
+        const offPrevBox = document.getElementById('off-preview-box');
+        const offPrevImg = document.getElementById('off-preview-img');
+
+        offFile.onchange = function (e) {
+            const f = e.target.files[0];
+            if (f) {
+                const r = new FileReader();
+                r.onload = (re) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const can = document.createElement('canvas');
+                        const w = 1000; const s = w / img.width;
+                        can.width = w; can.height = img.height * s;
+                        can.getContext('2d').drawImage(img, 0, 0, can.width, can.height);
+                        const opt = can.toDataURL('image/jpeg', 0.6);
+                        offImgData.value = opt;
+                        offPrevImg.src = opt;
+                        offPrevBox.style.display = 'block';
+                    };
+                    img.src = re.target.result;
+                };
+                r.readAsDataURL(f);
+            }
+        };
+
+        function loadOfficeData() {
+            const data = JSON.parse(localStorage.getItem('nexus_office_data'));
+            if (data) {
+                document.getElementById('off-title').value = data.title || '';
+                document.getElementById('off-desc').value = data.desc || '';
+                if (data.img) {
+                    offImgData.value = data.img;
+                    offPrevImg.src = data.img;
+                    offPrevBox.style.display = 'block';
+                }
+            }
+        }
+
+        offForm.onsubmit = function (e) {
+            e.preventDefault();
+            const data = {
+                title: document.getElementById('off-title').value,
+                desc: document.getElementById('off-desc').value,
+                img: offImgData.value
+            };
+            localStorage.setItem('nexus_office_data', JSON.stringify(data));
+            alert("Office Details Updated Successfully!");
+        };
+
+        function resetOfficeDefault() {
+            if (confirm("Restore home page office section to default?")) {
+                localStorage.removeItem('nexus_office_data');
+                location.reload();
+            }
+        }
+
+        function superResetData() {
+            if (confirm("Kya aap waqai SARA DATA (Properties + Messages) khatam karna chahte hain?")) {
+                if (confirm("SOCH LEIN! Ye wapis nahi aaye ga. Kya confirm hai?")) {
+                    localStorage.clear();
+                    alert("Saray records saaf kar diye gaye hain.");
+                    location.reload();
+                }
+            }
+        }
+
+        renderV5();
+        renderInquiries();
+        loadOfficeData();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Estates | Mohammad Irfan Developers</title>
+    <meta name="description"
+        content="Discover ultra-modern luxury properties with Nexus Estates. Your gateway to premium real estate.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header id="main-header">
+        <div class="logo">MOHAMMAD IRFAN DEVELOPERS</div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#properties">Properties</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="javascript:void(0)" onclick="goToAdmin()" style="color: var(--accent);">Admin</a></li>
+            </ul>
+        </nav>
+        <div id="header-action-container">
+            <a href="#contact" class="btn btn-primary">Book Viewing</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <h1>Elevate Your Living <br> Experience</h1>
+
+            <div class="search-bar glass"
+                style="grid-template-columns: repeat(4, 1fr) auto; width: 95%; max-width: 1100px;">
+                <div class="search-item">
+                    <label>Keyword / Tag</label>
+                    <input type="text" id="filter-keyword" placeholder="e.g. 5 Marla, Corner"
+                        style="background:transparent; border:none; color:white; outline:none; width:100%; padding: 5px 0;">
+                </div>
+                <div class="search-item">
+                    <label>Location</label>
+                    <select id="filter-city">
+                        <option value="All">All Cities</option>
+                        <!-- Dynamic Cities -->
+                    </select>
+                </div>
+                <div class="search-item">
+                    <label>Property Type</label>
+                    <select id="filter-category">
+                        <option value="All">All Types</option>
+                        <!-- Dynamic Categories -->
+                    </select>
+                </div>
+                <div class="search-item">
+                    <label>Max Price</label>
+                    <select id="filter-price">
+                        <option value="Any">Any Price</option>
+                        <option value="5000000">Under 50 Lac</option>
+                        <option value="10000000">Under 1 Crore</option>
+                        <option value="50000000">Under 5 Crore</option>
+                        <option value="100000000">Under 10 Crore</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="renderProperties()"
+                    style="height: 100%; border-radius: 0 12px 12px 0;">Search</button>
+            </div>
+
+            <div class="hero-btns" style="margin-top: 2.5rem;">
+                <a href="#properties" class="btn btn-primary">View Listings</a>
+                <a href="#contact" class="btn glass" style="border-color: rgba(255,255,255,0.2)">Consultation</a>
+            </div>
+        </section>
+
+        <section class="stats-section glass">
+            <div class="stat-item">
+                <div class="stat-number">450+</div>
+                <div class="stat-label">Properties Sold</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Happy Clients</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Cities Covered</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">$1.2B</div>
+                <div class="stat-label">Total Volume</div>
+            </div>
+        </section>
+
+        <section id="about" class="section glass"
+            style="margin: 4rem 5%; border-radius: 30px; padding: 4rem; display: none; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+            <div class="about-content">
+                <h6 style="color: var(--primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem;">
+                    Visit Our Office</h6>
+                <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;" id="office-title">Mohammad Irfan Developers <br>
+                    <span style="color: var(--primary);">Real Estate Shop</span>
+                </h2>
+                <p style="color: #94a3b8; font-size: 1.1rem; line-height: 1.8;" id="office-desc">
+                    Welcome to our premium real estate outlet. Hamare office tashreef layein aur apne khawabon ke ghar
+                    ya investment plots ke baray mein mukammal maloomat hasil karein. <br><br>
+                    Main office par hum behtareen consultancy aur property deals faraham karte hain jo aapki zaroorat ke
+                    mutabiq hoti hain.
+                </p>
+                <div style="margin-top: 2rem;">
+                    <a href="#contact" class="btn btn-primary">Visit Now</a>
+                </div>
+            </div>
+            <div class="about-image" style="position: relative;">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80"
+                    id="office-img" alt="Irfan Developers Office"
+                    style="width: 100%; border-radius: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.5);">
+            </div>
+        </section>
+
+        <section id="properties" class="section">
+            <div class="section-title">
+                <h2>Explore Modern Properties</h2>
+                <p>Find the perfect space: From luxury homes to commercial plazas and investment plots.</p>
+            </div>
+            <div id="property-list" class="property-grid">
+                <!-- Dynamic Content Loaded by script.js -->
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <div class="glass" style="padding: 4rem; text-align: center; max-width: 800px; margin: 0 auto;">
+                <h2>Inquire About Your Dream Home</h2>
+                <p style="margin-bottom: 2rem; color: #94a3b8;">Our elite agents are ready to assist you in finding your
+                    next masterpiece.</p>
+                <form id="contact-form" style="display: grid; gap: 1rem;">
+                    <input type="text" id="user-name" placeholder="Your Name" class="glass" required
+                        style="padding: 1rem; color: white;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <input type="email" id="user-email" placeholder="Your Email" class="glass" required
+                            style="padding: 1rem; color: white;">
+                        <input type="tel" id="user-phone" placeholder="Phone (e.g. 0300...)" class="glass" required
+                            style="padding: 1rem; color: white;">
+                    </div>
+                    <textarea id="user-message" placeholder="Your Message" class="glass" required
+                        style="padding: 1rem; color: white; min-height: 120px;"></textarea>
+                    <button type="submit" class="btn btn-primary" style="font-size: 1.1rem;">Send Inquiry</button>
+                    <p id="form-feedback" style="display: none; color: #10b981; font-weight: bold; margin-top: 10px;">
+                    </p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer
+        style="padding: 3rem 5%; border-top: 1px solid var(--glass-border); text-align: center; color: var(--text-muted);">
+        <p>&copy; 2026 Mohammad Irfan Developers. All rights reserved.</p>
+    </footer>
+
+    <!-- VIDEO MODAL -->
+    <div id="video-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-content glass">
+            <button class="close-modal" onclick="closeVideoModal()">&times;</button>
+            <div id="video-container"></div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

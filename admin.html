@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Admin | V5 RESCUE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-container {
+            padding: 8rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            color: white;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 2rem;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.2rem;
+            border-radius: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.9rem;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .admin-table th {
+            text-align: left;
+            padding: 1.2rem 1rem;
+            color: #94a3b8;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.8rem;
+        }
+
+        .admin-table td {
+            padding: 1.2rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-primary {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            width: 100%;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+
+        .prop-img-sm {
+            width: 60px;
+            height: 45px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin-left: 5px;
+        }
+
+        .edit-btn {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* INQUIRY CARD STYLES */
+        .inquiry-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .inquiry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.5rem;
+        }
+
+        .inquiry-name {
+            font-weight: 700;
+            color: #60a5fa;
+            font-size: 1.1rem;
+        }
+
+        .inquiry-meta {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .inquiry-msg {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #cbd5e1;
+        }
+
+        .inquiry-contact {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+
+<body style="background: #020617;">
+    <script>
+        // PAGE PROTECTION
+        if (sessionStorage.getItem('nexus_admin_logged') !== 'true') {
+            alert("Unauthorized! Pehle main page se login karein.");
+            window.location.href = 'index.html';
+        }
+    </script>
+    <header id="main-header" class="scrolled">
+        <div class="logo">MOHAMMAD IRFAN DEVELOPERS <span
+                style="font-size: 0.7rem; background: #10b981; color: white; padding: 2px 6px; border-radius: 4px; margin-left: 10px;">RESCUE
+                V5</span></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">View Website</a></li>
+                <li><a href="javascript:void(0)" onclick="sessionStorage.clear(); location.href='index.html';"
+                        style="color: #ef4444;">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="admin-container">
+        <div class="admin-grid">
+            <div class="glass-card" style="height: fit-content; position: sticky; top: 100px;">
+                <h2 id="f-t" style="margin-bottom: 2rem;">Add New Property</h2>
+                <form id="f-v5">
+                    <input type="hidden" id="e-i">
+                    <div class="form-group"><label>Property Name</label><input type="text" id="t-v5"
+                            class="form-control" required placeholder="5 Marla House"></div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="c-v5" class="form-control">
+                            <option value="Sale">For Sale</option>
+                            <option value="Rent">For Rent</option>
+                            <option value="Commercial">Commercial</option>
+                            <option value="Plot">Plot</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Price (PKR)</label><input type="text" id="p-v5" class="form-control"
+                            required placeholder="1.2 Crore"></div>
+                    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div><label>City</label><input type="text" id="ct-v5" class="form-control" required
+                                value="Lahore"></div>
+                        <div><label>Area</label><input type="text" id="a-v5" class="form-control" required
+                                placeholder="DHA"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Property Image</label>
+                        <input type="file" id="fl-v5" class="form-control" accept="image/*">
+                        <input type="hidden" id="id-v5">
+                        <div id="pv-v5" style="display:none; margin-top:1rem;"><img id="im-v5" src=""
+                                style="width:100%; border-radius:10px;"></div>
+                    </div>
+                    <div class="form-group"><label>Stats</label><input type="text" id="st-v5" class="form-control"
+                            placeholder="3 Beds, 4 Baths"></div>
+                    <div class="form-group"><label>YouTube Video Link (Optional)</label><input type="text" id="v-v5"
+                            class="form-control" placeholder="https://www.youtube.com/watch?v=..."></div>
+                    <button type="submit" class="btn-primary" id="sb-v5">SAVE PROPERTY</button>
+                </form>
+            </div>
+
+            <div>
+                <h2 style="margin-bottom: 1rem;">Listings Status</h2>
+                <div class="glass-card" style="padding: 0;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Location</th>
+                                <th style="text-align:right; padding-right:2rem;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tb-v5"></tbody>
+                    </table>
+                </div>
+                <button onclick="superResetData()"
+                    style="margin-top: 2rem; color: #ef4444; background: none; border: 1px solid #ef4444; padding: 5px 10px; border-radius: 5px; cursor:pointer;">Super
+                    Reset (Clear Everything)</button>
+
+                <h2 style="margin-top: 4rem; margin-bottom: 1.5rem; color: #f59e0b;">User Messages / Inquiries</h2>
+                <div id="inquiry-list">
+                    <!-- Loaded dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 5rem 0;">
+
+        <!-- SECURITY / PASSWORD MANAGEMENT -->
+        <div class="admin-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="glass-card">
+                <h2 style="margin-bottom: 2rem; color: #f43f5e;">Security Settings (Admin Password)</h2>
+                <form id="pass-form">
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" id="curr-pass" class="form-control" placeholder="Current password...">
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="text" id="new-pass" class="form-control" placeholder="New password...">
+                    </div>
+                    <button type="submit" class="btn-primary" style="background: #e11d48;">CHANGE ADMIN
+                        PASSWORD</button>
+                </form>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: center; padding: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Security Note:</h3>
+                <p style="color: #94a3b8; line-height: 1.6;">
+                    Admin Panel ko mehfooz rakhne ke liye aap password tabdeel kar sakte hain. <br><br>
+                    - Default Password: <b>irfan admin</b> <br>
+                    - Naya password likh kar save karein. <br>
+                    - Password bhool jane ki surat mein "Super Reset" button dabana paray ga jo sara data saaf kar de
+                    ga.
+                </p>
+            </div>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 5rem 0;">
+
+        <!-- HEADER CTA MANAGEMENT -->
+        <div class="admin-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="glass-card">
+                <h2 style="margin-bottom: 2rem; color: #a855f7;">Manage Header Action (Button Replacement)</h2>
+                <form id="header-cta-form">
+                    <div class="form-group">
+                        <label>Action Image (Replaces "Book Viewing" Button)</label>
+                        <input type="file" id="hcta-file" class="form-control" accept="image/*">
+                        <input type="hidden" id="hcta-img-data">
+                        <div id="hcta-preview-box" style="display:none; margin-top:1rem;">
+                            <img id="hcta-preview-img" src="" style="max-height:100px; border-radius:10px;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Click Link (Where to go when clicked?)</label>
+                        <input type="text" id="hcta-link" class="form-control" placeholder="#contact or https://...">
+                    </div>
+                    <div class="form-group" style="display:flex; gap:10px; align-items:center;">
+                        <input type="checkbox" id="hcta-active" style="width:20px; height:20px;">
+                        <label style="margin:0;">Show Image instead of Button</label>
+                    </div>
+                    <button type="submit" class="btn-primary" style="background: #9333ea;">SAVE HEADER ACTION</button>
+                    <button type="button" onclick="resetCTA()"
+                        style="width:100%; margin-top:10px; background:none; border:none; color:#94a3b8; cursor:pointer;">Remove
+                        / Reset to Button</button>
+                </form>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: center; padding: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Header Setup Note:</h3>
+                <p style="color: #94a3b8; line-height: 1.6;">
+                    Agar aap "Book Viewing" button ki jagah apni koi tasveer dikhana chahte hain (maslan WhatsApp Icon
+                    ya koi Special Offer), to: <br><br>
+                    1. Tasveer upload karein. <br>
+                    2. Batayein ke us par click karne se kahan jana chahiye. <br>
+                    3. "Show Image" wala khanay check karein. <br><br>
+                    Ye button ki jagah display hogi.
+                </p>
+            </div>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 5rem 0;">
+
+        <!-- NEW OFFICE MANAGEMENT SECTION -->
+        <div class="admin-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="glass-card">
+                <h2 style="margin-bottom: 2rem; color: #60a5fa;">Manage Office/Shop Section</h2>
+                <form id="office-form">
+                    <div class="form-group">
+                        <label>Office Heading</label>
+                        <input type="text" id="off-title" class="form-control" placeholder="e.g. Real Estate Shop">
+                    </div>
+                    <div class="form-group">
+                        <label>Office Details / Description</label>
+                        <textarea id="off-desc" class="form-control" rows="5" style="resize: none;"
+                            placeholder="Welcome to our outlet..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Office Image</label>
+                        <input type="file" id="off-file" class="form-control" accept="image/*">
+                        <input type="hidden" id="off-img-data">
+                        <div id="off-preview-box" style="display:none; margin-top:1rem;">
+                            <img id="off-preview-img" src="" style="width:100%; border-radius:10px;">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary" style="background: #3b82f6;">UPDATE SHOP SECTION</button>
+                    <button type="button" onclick="resetOfficeDefault()"
+                        style="width:100%; margin-top:10px; background:none; border:none; color:#94a3b8; cursor:pointer;">Reset
+                        to Default</button>
+                </form>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: center; padding: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Admin Note:</h3>
+                <p style="color: #94a3b8; line-height: 1.6;">
+                    Yahan se aap main page ka "Visit Our Office" wala hissa tabdeel kar sakte hain. <br><br>
+                    1. <b>Heading</b> badlein. <br>
+                    2. <b>Details</b> likhein jo aap dikhana chahte hain. <br>
+                    3. <b>Office/Shop ki picture</b> select karein. <br><br>
+                    Ye tabdeeli foran "About" section mein nazar aaye gi.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // UNLIMITED STORAGE (INDEXEDDB) HANDLER
+        const dbName = "NexusDB_V6";
+        const storeName = "properties";
+
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(dbName, 1);
+                request.onupgradeneeded = e => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains(storeName)) {
+                        db.createObjectStore(storeName, { keyPath: "id" });
+                    }
+                };
+                request.onsuccess = e => resolve(e.target.result);
+                request.onerror = e => reject(e.target.error);
+            });
+        }
+
+        async function getD() {
+            const db = await openDB();
+            return new Promise((resolve) => {
+                const transaction = db.transaction(storeName, "readonly");
+                const store = transaction.objectStore(storeName);
+                const request = store.getAll();
+                request.onsuccess = () => resolve(request.result || []);
+            });
+        }
+
+        async function saveEntry(entry) {
+            // FIREBASE SYNC
+            if (typeof propertiesRef !== 'undefined') {
+                await propertiesRef.child(entry.id.toString()).set(entry);
+                return;
+            }
+
+            // Fallback to IndexedDB
+            const db = await openDB();
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction(storeName, "readwrite");
+                const store = transaction.objectStore(storeName);
+                const request = store.put(entry);
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject();
+            });
+        }
+
+        async function deleteEntry(id) {
+            // FIREBASE SYNC
+            if (typeof propertiesRef !== 'undefined') {
+                await propertiesRef.child(id.toString()).remove();
+                return;
+            }
+
+            const db = await openDB();
+            return new Promise((resolve) => {
+                const transaction = db.transaction(storeName, "readwrite");
+                const store = transaction.objectStore(storeName);
+                const request = store.delete(id);
+                request.onsuccess = () => resolve();
+            });
+        }
+
+        // MIGRATION FROM LOCALSTORAGE
+        async function migrateData() {
+            const oldData = JSON.parse(localStorage.getItem('nexus_properties')) || [];
+            if (oldData.length > 0) {
+                console.log("Migrating old data to Unlimited Storage...");
+                for (const item of oldData) {
+                    await saveEntry(item);
+                }
+                localStorage.removeItem('nexus_properties'); // Clean up old storage
+                console.log("Migration Complete!");
+            }
+        }
+
+        async function renderV5() {
+            const list = document.getElementById('tb-v5');
+            const data = await getD();
+            list.innerHTML = data.length ? '' : '<tr><td colspan="5" style="text-align:center; padding:3rem;">Khaali Website! Pehli entry karein.</td></tr>';
+            data.reverse().forEach(p => {
+                list.innerHTML += `<tr><td><img src="${p.img}" class="prop-img-sm"> <b>${p.title}</b></td><td>${p.category}</td><td>${p.price}</td><td>${p.area}, ${p.city}</td><td style="text-align:right; padding-right:2rem;"><button onclick="editV5(${p.id})" class="action-btn edit-btn">Edit</button><button onclick="deleteV5(${p.id})" class="action-btn delete-btn">Del</button></td></tr>`;
+            });
+        }
+
+        const fileIn = document.getElementById('fl-v5');
+        fileIn.onchange = function (e) {
+            const f = e.target.files[0];
+            if (f) {
+                const r = new FileReader();
+                r.onload = (re) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const can = document.createElement('canvas');
+                        const w = 600; const s = w / img.width;
+                        can.width = w; can.height = img.height * s;
+                        can.getContext('2d').drawImage(img, 0, 0, can.width, can.height);
+                        const opt = can.toDataURL('image/jpeg', 0.4); // 40% quality for super-safety
+                        document.getElementById('id-v5').value = opt;
+                        document.getElementById('im-v5').src = opt;
+                        document.getElementById('pv-v5').style.display = 'block';
+                    };
+                    img.src = re.target.result;
+                };
+                r.readAsDataURL(f);
+            }
+        };
+
+        document.getElementById('f-v5').onsubmit = async function (e) {
+            e.preventDefault();
+            const imgData = document.getElementById('id-v5').value;
+            if (!imgData) { alert("Image select karein!"); return; }
+
+            const eid = document.getElementById('e-i').value;
+            const entry = {
+                id: eid ? parseInt(eid) : Date.now(),
+                title: document.getElementById('t-v5').value,
+                price: document.getElementById('p-v5').value,
+                city: document.getElementById('ct-v5').value,
+                area: document.getElementById('a-v5').value,
+                category: document.getElementById('c-v5').value,
+                img: imgData,
+                youtube: document.getElementById('v-v5').value,
+                stats: document.getElementById('st-v5').value.split(',')
+            };
+
+            try {
+                await saveEntry(entry);
+                alert("MUBARAK HO! PROPERTY UNLIMITED STORAGE MEIN SAVE HO GAYI.");
+
+                // Trigger sync for other tabs
+                localStorage.setItem('nexus_idb_sync', Date.now());
+
+                location.reload();
+            } catch (err) {
+                alert("Error saving property. Please try again.");
+            }
+        };
+
+        async function deleteV5(id) {
+            if (confirm("DLETE?")) {
+                await deleteEntry(id);
+                localStorage.setItem('nexus_idb_sync', Date.now());
+                renderV5();
+            }
+        }
+
+        async function editV5(id) {
+            const data = await getD();
+            const p = data.find(x => x.id === id);
+            if (p) {
+                document.getElementById('t-v5').value = p.title;
+                document.getElementById('p-v5').value = p.price;
+                document.getElementById('ct-v5').value = p.city;
+                document.getElementById('a-v5').value = p.area;
+                document.getElementById('c-v5').value = p.category;
+                document.getElementById('st-v5').value = p.stats.join(',');
+                document.getElementById('v-v5').value = p.youtube || '';
+                document.getElementById('id-v5').value = p.img;
+                document.getElementById('im-v5').src = p.img;
+                document.getElementById('pv-v5').style.display = 'block';
+                document.getElementById('e-i').value = p.id;
+                document.getElementById('sb-v5').innerText = "UPDATE NOW";
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function renderInquiries() {
+            if (typeof inquiriesRef !== 'undefined') {
+                inquiriesRef.on('value', (snap) => {
+                    const data = snap.val();
+                    const listArr = data ? Object.values(data) : [];
+                    displayInquiries(listArr);
+                });
+            } else {
+                const data = JSON.parse(localStorage.getItem('nexus_inquiries')) || [];
+                displayInquiries(data);
+            }
+        }
+
+        function displayInquiries(data) {
+            const list = document.getElementById('inquiry-list');
+            list.innerHTML = data.length ? '' : '<div class="glass-card" style="text-align:center; color:#94a3b8;">No messages yet.</div>';
+
+            data.reverse().forEach(inq => {
+                list.innerHTML += `
+                    <div class="inquiry-card glass">
+                        <div class="inquiry-header">
+                            <div>
+                                <div class="inquiry-name">${inq.name}</div>
+                                <div class="inquiry-meta">${inq.time}</div>
+                            </div>
+                            <button onclick="deleteInquiry('${inq.fb_id || inq.id}')" class="action-btn delete-btn" style="padding:4px 8px;">Delete</button>
+                        </div>
+                        <div class="inquiry-msg">"${inq.message}"</div>
+                        <div class="inquiry-contact">
+                            <span>📧 ${inq.email}</span>
+                            <span>📞 <b>${inq.phone}</b></span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function deleteInquiry(id) {
+            if (confirm("Delete this message?")) {
+                if (typeof inquiriesRef !== 'undefined') {
+                    // Find key by ID or delete directly if ID is the key
+                    inquiriesRef.once('value', (snap) => {
+                        const data = snap.val();
+                        for (let key in data) {
+                            if (data[key].id.toString() === id.toString()) {
+                                inquiriesRef.child(key).remove();
+                                break;
+                            }
+                        }
+                    });
+                } else {
+                    let data = JSON.parse(localStorage.getItem('nexus_inquiries')) || [];
+                    data = data.filter(x => x.id.toString() !== id.toString());
+                    localStorage.setItem('nexus_inquiries', JSON.stringify(data));
+                    renderInquiries();
+                }
+            }
+        }
+
+        // OFFICE MANAGEMENT SCRIPT
+        const offForm = document.getElementById('office-form');
+        const offFile = document.getElementById('off-file');
+        const offImgData = document.getElementById('off-img-data');
+        const offPrevBox = document.getElementById('off-preview-box');
+        const offPrevImg = document.getElementById('off-preview-img');
+
+        offFile.onchange = function (e) {
+            const f = e.target.files[0];
+            if (f) {
+                const r = new FileReader();
+                r.onload = (re) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const can = document.createElement('canvas');
+                        const w = 1000; const s = w / img.width;
+                        can.width = w; can.height = img.height * s;
+                        can.getContext('2d').drawImage(img, 0, 0, can.width, can.height);
+                        const opt = can.toDataURL('image/jpeg', 0.6);
+                        offImgData.value = opt;
+                        offPrevImg.src = opt;
+                        offPrevBox.style.display = 'block';
+                    };
+                    img.src = re.target.result;
+                };
+                r.readAsDataURL(f);
+            }
+        };
+
+        function loadOfficeData() {
+            const data = JSON.parse(localStorage.getItem('nexus_office_data'));
+            if (data) {
+                document.getElementById('off-title').value = data.title || '';
+                document.getElementById('off-desc').value = data.desc || '';
+                if (data.img) {
+                    offImgData.value = data.img;
+                    offPrevImg.src = data.img;
+                    offPrevBox.style.display = 'block';
+                }
+            }
+        }
+
+        offForm.onsubmit = function (e) {
+            e.preventDefault();
+            const data = {
+                title: document.getElementById('off-title').value,
+                desc: document.getElementById('off-desc').value,
+                img: offImgData.value
+            };
+
+            // Firebase Sync
+            if (typeof officeRef !== 'undefined') officeRef.set(data);
+
+            localStorage.setItem('nexus_office_data', JSON.stringify(data));
+            alert("Office Details Updated Successfully!");
+        };
+
+        function resetOfficeDefault() {
+            if (confirm("Restore home page office section to default?")) {
+                localStorage.removeItem('nexus_office_data');
+                location.reload();
+            }
+        }
+
+        // HEADER CTA SCRIPT
+        const hctaFile = document.getElementById('hcta-file');
+        const hctaImgData = document.getElementById('hcta-img-data');
+        const hctaPrevBox = document.getElementById('hcta-preview-box');
+        const hctaPrevImg = document.getElementById('hcta-preview-img');
+
+        hctaFile.onchange = function (e) {
+            const f = e.target.files[0];
+            if (f) {
+                const r = new FileReader();
+                r.onload = (re) => {
+                    hctaImgData.value = re.target.result;
+                    hctaPrevImg.src = re.target.result;
+                    hctaPrevBox.style.display = 'block';
+                };
+                r.readAsDataURL(f);
+            }
+        };
+
+        document.getElementById('header-cta-form').onsubmit = function (e) {
+            e.preventDefault();
+            const data = {
+                img: hctaImgData.value,
+                link: document.getElementById('hcta-link').value || '#contact',
+                active: document.getElementById('hcta-active').checked
+            };
+
+            // Firebase Sync
+            if (typeof hctaRef !== 'undefined') hctaRef.set(data);
+
+            localStorage.setItem('nexus_hcta_data', JSON.stringify(data));
+            alert("Header Action Updated!");
+        };
+
+        function resetCTA() {
+            if (confirm("Remove custom image and show the default button?")) {
+                if (typeof hctaRef !== 'undefined') hctaRef.remove();
+                localStorage.removeItem('nexus_hcta_data');
+                location.reload();
+            }
+        }
+
+        function loadCTAData() {
+            const data = JSON.parse(localStorage.getItem('nexus_hcta_data'));
+            if (data) {
+                hctaImgData.value = data.img || '';
+                hctaPrevImg.src = data.img || '';
+                if (data.img) hctaPrevBox.style.display = 'block';
+                document.getElementById('hcta-link').value = data.link || '#contact';
+                document.getElementById('hcta-active').checked = data.active;
+            }
+        }
+
+        // PASSWORD MANAGEMENT SCRIPT
+        document.getElementById('pass-form').onsubmit = function (e) {
+            e.preventDefault();
+            const curr = document.getElementById('curr-pass').value;
+            const newP = document.getElementById('new-pass').value;
+            const saved = localStorage.getItem('nexus_admin_pass') || 'irfan admin';
+
+            if (curr !== saved) {
+                alert("Purana password ghalat hai!");
+                return;
+            }
+            if (!newP) {
+                alert("Naya password likhein!");
+                return;
+            }
+
+            localStorage.setItem('nexus_admin_pass', newP);
+            alert("Password Successfully Changed!");
+            location.reload();
+        };
+
+        function superResetData() {
+            if (confirm("Kya aap waqai SARA DATA (Properties + Messages) khatam karna chahte hain?")) {
+                if (confirm("SOCH LEIN! Ye wapis nahi aaye ga. Kya confirm hai?")) {
+                    localStorage.clear();
+                    alert("Saray records saaf kar diye gaye hain.");
+                    location.reload();
+                }
+            }
+        }
+
+        async function initAdmin() {
+            await migrateData();
+            await renderV5();
+            renderInquiries();
+            loadOfficeData();
+            loadCTAData();
+        }
+
+        initAdmin();
+    </script>
+</body>
+
+</html>
