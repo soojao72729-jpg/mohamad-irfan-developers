@@ -21,3 +21,6 @@ const inquiriesRef = db.ref('inquiries');
 const officeRef = db.ref('office_data');
 const hctaRef = db.ref('hcta_data');
 const settingsRef = db.ref('settings');
+
+console.log("🔥 Firebase Initialized for: " + firebaseConfig.projectId);
+window.nexus_firebase_connected = true;

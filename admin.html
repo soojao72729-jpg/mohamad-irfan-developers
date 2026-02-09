@@ -166,9 +166,25 @@
         }
     </script>
     <header id="main-header" class="scrolled">
-        <div class="logo">MOHAMMAD IRFAN DEVELOPERS <span
+        <div class="logo">MOHAMMAD IRFAN DEVELOPERS
+            <span
                 style="font-size: 0.7rem; background: #10b981; color: white; padding: 2px 6px; border-radius: 4px; margin-left: 10px;">RESCUE
-                V5</span></div>
+                V5</span>
+            <span id="sync-status" style="font-size: 0.6rem; color: #94a3b8; margin-left: 10px;">● Checking
+                Cloud...</span>
+        </div>
+        <script>
+            setTimeout(() => {
+                const status = document.getElementById('sync-status');
+                if (window.nexus_firebase_connected) {
+                    status.innerHTML = "● Cloud Connected";
+                    status.style.color = "#10b981";
+                } else {
+                    status.innerHTML = "● Offline Mode";
+                    status.style.color = "#ef4444";
+                }
+            }, 2000);
+        </script>
         <nav>
             <ul>
                 <li><a href="index.html">View Website</a></li>

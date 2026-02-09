@@ -167,14 +167,20 @@ nav ul li a:hover {
 
 .property-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 2rem;
+    justify-content: center;
+    /* Center cards if they don't fill the row */
 }
 
 .property-card {
     position: relative;
     overflow: hidden;
     transition: transform 0.3s;
+    max-width: 400px;
+    /* Prevent card from becoming too wide */
+    width: 100%;
+    margin: 0 auto;
 }
 
 .category-badge {
